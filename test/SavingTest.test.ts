@@ -39,8 +39,25 @@ describe("SavingEthers", function(){
             }catch(error){
                expect(error.message).to.include("can't save zero value");
             }
-        }), 
+        })
     }),
 
-    
+    describe("test withdraw", function(){
+        it("when i withdraw, i should check my balance to see the change...", async function(){
+            await saving.deposit({value: ethers.parseEther("2.0")});
+
+            await saving.withdraw();
+            const result = await saving.checkSavings(owner.address);
+            expect(result).to.be.equal(0);
+        }), 
+        it("user cannot withdraw from the an empty saving", async function(){
+            try{
+                await saving.withdraw();
+            }catch(error){
+                expect(error.message).to.include("you don't have any savings");
+            }
+        })
+    })
+
+
 })

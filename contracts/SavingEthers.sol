@@ -18,4 +18,13 @@ contract SavingEthers {
     function checkSavings(address _user) external view returns (uint256) {
         return savings[_user];
     }
+    function withdraw() external {
+        require(msg.sender != address(0), "wrong EOA");
+        uint256 _userSavings = savings[msg.sender];
+        require(_userSavings > 0, "you don't have any savings");
+
+        savings[msg.sender] -= _userSavings;
+
+        payable(msg.sender).transfer(_userSavings);
+    }
 }
