@@ -57,6 +57,17 @@ describe("SavingEthers", function(){
                 expect(error.message).to.include("you don't have any savings");
             }
         })
+    }),
+
+    describe("test sendOut Savings", function(){
+        it("when i send to an address i should be able to get the balance", async function(){
+            await saving.deposit({value: ethers.parseEther("2.0")});
+            console.log("others", otherSigners)
+            await saving.sendOutSaving(otherSigners.address, 1);
+            
+            const result = otherSigners.balance;
+            expect(result).is.greaterThan(0);
+        })
     })
 
 

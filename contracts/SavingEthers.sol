@@ -27,4 +27,13 @@ contract SavingEthers {
 
         payable(msg.sender).transfer(_userSavings);
     }
+    
+    function sendOutSaving(address _receiver, uint256 _amount) external {
+        require(msg.sender != address(0), "no zero address call");
+        require(_amount > 0, "can't send zero value");
+        require(savings[msg.sender] >= _amount);
+        savings[msg.sender] -= _amount;
+        
+        payable(_receiver).transfer(_amount);
+    }
 }
